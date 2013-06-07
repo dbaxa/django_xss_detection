@@ -15,7 +15,7 @@ def configure_django(template_dirs):
 	TEMPLATE_LOADERS = (
 		'django.template.loaders.filesystem.Loader',
 		'django.template.loaders.app_directories.Loader',
-		'django_detect_xss.loaders.nop.Loader',
+		'django_xss_detection.loaders.nop.Loader',
 	)
 	settings.configure(DEBUG=False, TEMPLATE_DEBUG=True,
 		TEMPLATE_DIRS=template_dirs, TEMPLATE_LOADERS=TEMPLATE_LOADERS)
@@ -25,7 +25,7 @@ def patch(csw):
 	django.template.defaulttags.IfChangedNode = parse_template.IfChangedNodeOverload
 	django.template.defaulttags.IfNode = parse_template.IfNodeOverload
 	django.template.defaulttags.IfEqualNode = parse_template.IfEqualNodeOverload
-	django.template.base.add_to_builtins('django_detect_xss.templatetags.waffle')
+	django.template.base.add_to_builtins('django_xss_detection.templatetags.waffle')
 
 def get_template_wrapped(template_name):
 	""" returns the result of calling loader.get_template(template_name)
