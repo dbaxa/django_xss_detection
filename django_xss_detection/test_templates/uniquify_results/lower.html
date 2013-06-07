@@ -1,0 +1,8 @@
+{% extends "uniquify_results/top.html" %}
+
+{% block win %}
+	{% autoescape off %}
+		{{ lower }}
+		{% include "uniquify_results/include.html" %}
+	{% endautoescape %}
+{% endblock %}

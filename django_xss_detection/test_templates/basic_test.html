@@ -1,0 +1,47 @@
+
+{{x.wf}}
+	x = {{winrar}}
+	{{whatisthis}}
+	rsly====={{what.whatwhat}}
+
+	{{var1|escape}}
+
+	z = {% firstof winrar %}
+{% with winrar="wa" %}
+		{% firstof winrar  "123" %}
+{% endwith %}
+{% firstof "firstoftag" %}
+
+{% with repository_privilege=user|repository_privilege:repository %}
+  <span id="user-repo-privilege-data" data-priv='{{ repository_privilege|safe }}'></span>
+  {% endwith %}
+{% with c=comment|commentdict:request %}
+{% endwith %}
+
+This is an attribute injection example <attributeinjectionvul href={{attribute_injected_here}}>
+
+<script>
+	This will be escaped - but it is in a script block : {{ fffwinzzz}}
+
+	This will be js escaped : {{ boomIwinzzz|escapejs }}
+{% autoescape off %}
+	This will be escaped - but it is in a script block : {{ againagainz|escape}}
+{% endautoescape %}
+
+</script>
+
+
+
+{% if ga_commands %}
+	if statement test
+	{% for command in ga_commands %}
+		{% if command.type == "trackPageview" %}
+			<script>
+			for loop test command = {{ iffindme |safe }}
+			</script>
+		{% else %}
+			for loop test command = {{ elsefindme |safe }
+		{% endif %}
+	{% endfor %}
+	<---> winning
+{% endif %}

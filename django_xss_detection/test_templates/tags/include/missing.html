@@ -1,0 +1,9 @@
+{% with variable="something that does not exist.html" %}
+	{% include variable %}
+{% endwith %}
+
+<div type="vuln" name="include_variable">  {% include "tags/include/includer.1.html" %} </div>
+
+{% include "/some/template/that/does/not/exist.html" %}
+<div type="vuln" name="vuln"> {{ vuln| safe }} </div>
+

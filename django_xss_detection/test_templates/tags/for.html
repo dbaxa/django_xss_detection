@@ -1,0 +1,5 @@
+{% for thing in thingys %}
+	{{ safe_thing }}
+	<div type="vuln" name="thing"> {{ thing | safe }} </div>
+{% endfor %}
+

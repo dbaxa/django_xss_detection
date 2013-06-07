@@ -1,0 +1,22 @@
+<script>
+
+</script>
+<div type="vuln" name="first_js"> <script> {{ first_js }} </script> </div>
+
+<script>
+
+	{{ not_a_vuln | escapejs }}
+
+</script>
+
+<div type="vuln" name="another_vuln"> <script> var zyx = "{{ another_vuln }}"; </script> </div>
+
+</script>
+
+<div type="vuln" name="yet_another_vuln"> <script> {% if nested and baz.foo %} var x = '{{ yet_another_vuln }}'; {% endif %} </script>  </div>
+
+<script>
+	{% verbatim %}
+		var x = '{{ some_kind_of_js_template }}';
+	{% endverbatim %}
+</script>

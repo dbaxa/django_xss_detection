@@ -1,0 +1,6 @@
+{% autoescape off %}
+	 <div type="vuln" name="xyz"> {{ xyz }} </div>
+	{{ not_a_vuln | escape }}
+	 <div type="vuln" name="abc"> {{ abc|escape|safe }} </div>
+	 <div type="vuln" name="feq"> {{ feq|safe|escape }} </div>
+{% endautoescape %}

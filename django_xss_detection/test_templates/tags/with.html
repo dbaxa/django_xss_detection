@@ -1,0 +1,10 @@
+{% with withsomething=user|withsomething:repository %}
+	 <div type="vuln" name="withsomething"> <a value='{{ withsomething|safe }}'></a> </a>
+	{{ not_vuln }}
+{% endwith %}
+
+{% with c=comment|commentdict:request %}
+{% endwith %}
+
+{% with ff=csrf_token|truncatechars:6|urlize %} {% endwith %}
+{% with short_commits=stats|commits:period|short_num %} {% endwith %}

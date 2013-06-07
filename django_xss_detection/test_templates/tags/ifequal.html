@@ -1,0 +1,14 @@
+	{% ifequal user.id comment.user_id %}
+		<div type="vuln" name="ifequal_if_vulnerability"> {{ ifequal_if_vulnerability | safe }} </div>
+	{% else %}
+		<div type="vuln" name="ifequal_else_vulnerability"> {{ ifequal_else_vulnerability | safe }} </div>
+	{% endifequal %}
+
+	{% ifnotequal user.id comment.user_id %}
+		<div type="vuln" name="ifnotequal_vulnerability"> {{ ifnotequal_vulnerability | safe }} </div>
+		{{ not_a_vuln }}
+	{% else %}
+		<div type="vuln" name="ifnotequal_else_vulnerability"> {{ ifnotequal_else_vulnerability | safe }} </div>
+		{{ not_a_vuln }}
+	{% endifnotequal %}
+

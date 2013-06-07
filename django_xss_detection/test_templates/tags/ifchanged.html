@@ -1,0 +1,11 @@
+{% for date in days %}
+	{% ifchanged %}
+		<div type="vuln" name="a_vul"> {{ a_vul | safe}}  </div>
+	{% endifchanged %}
+	{% ifchanged date.date %} {{ date.date }} {% endifchanged %}
+	{% ifchanged date.hour date.date %}
+		<div type="vuln" name="yet_another_vul.hour"> {{ yet_another_vul.hour | safe }} </div>
+	{% else}
+		<div type="vuln" name="another_vul_in_else"> {{ another_vul_in_else | safe }} </div>
+	{% endifchanged %}
+{% endfor %}

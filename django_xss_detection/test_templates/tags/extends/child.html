@@ -1,0 +1,5 @@
+{% extends "tags/extends/parent.html" %}
+{% block inner %}
+	<div type="vuln" name="extends_vulnerability"> {{ extends_vulnerability }} </div>
+	{{ not_vuln |force_escape }}
+{% endblock %}

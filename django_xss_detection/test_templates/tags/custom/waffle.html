@@ -1,0 +1,23 @@
+{{ not_vuln }}
+
+{% flag some_flag_name_here %}
+	<div type="vuln" name="vuln"> {{ vuln | safe }} </div>
+{% else %}
+	{% autoescape off %}
+		<div type="vuln" name="also_vuln"> {{ also_vuln}} </div>
+	{% endautoescape %}
+{% endflag %}
+
+{% switch yep %}
+	<div type="vuln" name="switch_vuln"> {{ switch_vuln|safe }} </div>
+{% else %}
+	<div type="vuln" name="switch_vuln_else"> {{ switch_vuln_else|safe }} </div>
+{% endswitch %}
+
+{% sample sample_name_here %}
+	<div type="vuln" name="sample_vuln"> {{ sample_vuln|safe }} </div>
+{% else %}
+
+	<div type="vuln" name="sample_vuln_else"> {{ sample_vuln_else|safe }} </div>
+
+{% endsample %}

@@ -1,0 +1,3 @@
+git+https://github.com/django/django.git@stable/1.5.x#egg=django
+git+https://github.com/cython/cython.git#Cython
+git+https://github.com/lxml/lxml.git#egg=lxml

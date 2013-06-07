@@ -1,0 +1,17 @@
+        {% if athlete_list %}
+            Number of athletes: {{ athlete_list|count }}
+	     <div type="vuln" name="if_vulnerability"> {{ if_vulnerability | safe }} </div>
+        {% elif athlete_in_locker_room_list %}
+            Athletes should be out of the locker room soon!
+	    <div type="vuln" name="elif_vulnerability"> {{ elif_vulnerability | safe }} </div>
+        {% else %}
+            No athletes.
+	    <div type="vuln" name="else_vulnerability"> {{ else_vulnerability | safe }} </div>
+        {% endif %}
+
+	{% if something.else == "yetanotheriftagtest" %}
+			{% autoescape off %}
+				<div type="vuln" name="another_if_vuln"> {{ another_if_vuln }} </div>
+			{% endautoescape %}
+	{% endif %}
+

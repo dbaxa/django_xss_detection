@@ -1,0 +1,5 @@
+{% autoescape off %}
+	{% for commit in payload.commits %}
+		<div type="vuln" name="include_variable"> {% include "tags/include/includee.2.html" %} </div>
+	{% endfor %}
+{% endautoescape %}
