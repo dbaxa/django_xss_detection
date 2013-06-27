@@ -10,8 +10,8 @@ setup(name='django_xss_detection',
 	author_email='dblack@atlassian.com',
 	url='https://bitbucket.org/atlassian/django_xss_detection',
 	packages=find_packages(),
-	description=read('README'),
-	long_description=read('README'),
+	description=read('README.md'),
+	long_description=read('README.md'),
 	version = __import__('django_xss_detection').__version__
 )
 
