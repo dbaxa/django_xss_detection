@@ -12,6 +12,8 @@ setup(name='django_xss_detection',
 	packages=find_packages(),
 	description=read('README.md'),
 	long_description=read('README.md'),
-	version = __import__('django_xss_detection').__version__
+	version = __import__('django_xss_detection').__version__,
+	test_suite='django_xss_detection.test',
+
 )
 
