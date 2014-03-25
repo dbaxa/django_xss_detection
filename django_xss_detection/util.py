@@ -19,6 +19,8 @@ def configure_django(template_dirs):
 	)
 	settings.configure(DEBUG=False, TEMPLATE_DEBUG=True,
 		TEMPLATE_DIRS=template_dirs, TEMPLATE_LOADERS=TEMPLATE_LOADERS)
+	if hasattr(django, 'setup'):
+		django.setup()
 
 def patch(csw):
 	django.template.base.compile_string = csw.compile_string

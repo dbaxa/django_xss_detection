@@ -122,7 +122,13 @@ class DebugNodeListOverLoad(debug.DebugNodeList):
 	"""
 	def render_node(self, node, context):
 		source_node_name = 'source_node'
-		if isinstance(node, django.template.loader_tags.BaseIncludeNode):
+		_include_node_name = 'IncludeNode'
+		_prev_include_node_name = 'BaseIncludeNode'
+		if hasattr(django.template.loader_tags,
+				_prev_include_node_name):
+			_include_node_name = _prev_include_node_name
+		if isinstance(node, getattr(django.template.loader_tags,
+				_include_node_name)):
 			new_context = copy.copy(context)
 			if not hasattr(new_context, source_node_name):
 				setattr(new_context, source_node_name, node)
