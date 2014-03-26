@@ -8,4 +8,5 @@ env:
 install:
   - pip install -q lxml
   - pip install -q git+https://github.com/django/django.git@$DJANGO_VERSION_BRANCH
+before_script: python -c 'import django;print(django.VERSION)'
 script: python -m django_xss_detection.test
