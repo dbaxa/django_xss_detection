@@ -2,8 +2,10 @@ language: python
 python:
   - "2.7"
 env:
-  - DJANGO_VERSION=1.5.1
+  - DJANGO_VERSION_BRANCH=stable/1.5.x
+  - DJANGO_VERSION_BRANCH=stable/1.6.x
+  - DJANGO_VERSION_BRANCH=stable/1.7.x
 install:
   - pip install -q lxml
-  - pip install -q Django==$DJANGO_VERSION
+  - pip install -q git+https://github.com/django/django.git@$DJANGO_VERSION_BRANCH
 script: python -m django_xss_detection.test
