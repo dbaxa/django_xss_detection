@@ -6,10 +6,10 @@ from . import util
 
 
 def setup_option():
-	opt = argparse.ArgumentParser(description = \
+	opt = argparse.ArgumentParser(description =
 		"Find potential xss bugs in a django app!")
 	opt.add_argument("-d", "--template-directory", dest="template_dirs",
-		action="append", help = "Specify a template directory. " +
+		action="append", help = "Specify a template directory. "
 		"This argument can be specified multiple times.", required=True)
 	opt.add_argument("-j", "--json", dest="json_output",
 		action="store_true", help = "Print results out as JSON.")
