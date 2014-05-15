@@ -1,2 +1,2 @@
-git+https://github.com/django/django.git@stable/1.5.x#egg=django
+Django>=1.5
 lxml
