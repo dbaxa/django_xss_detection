@@ -1,3 +1,4 @@
+from __future__ import print_function
 import argparse
 import collections
 import json
@@ -21,17 +22,17 @@ def main(template_dirs, json_output=False):
 	if json_output:
 		_output_results_in_json(f_results)
 	else:
-		for template_name, results in f_results.iteritems():
-			print template_name
+		for template_name, results in f_results.items():
+			print(template_name)
 			for result in results:
-				print '	', result
+				print('	', result)
 
 def _output_results_in_json(f_results):
 	""" Prints out results in JSON in the following format:
 	    {'filename' : [{'result ...}, 'filename_two' : [...] }
 	"""
 	out = collections.defaultdict(list)
-	for filename, results in f_results.iteritems():
+	for filename, results in f_results.items():
 		for result in results:
 			result_dict = {'line_number' : result.get_line_number(),
 				'finding_reason' : result._get_reason(),
@@ -39,7 +40,7 @@ def _output_results_in_json(f_results):
 					result.get_vulnerability_text(),
 			}
 			out[result.get_filename()].append(result_dict)
-	print json.dumps(out)
+	print(json.dumps(out))
 
 def from_cli():
 	opt = setup_option()
