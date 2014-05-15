@@ -36,7 +36,7 @@ def get_template_wrapped(template_name):
 	"""
 	try:
 		return loader.get_template(template_name)
-	except (django.template.base.TemplateSyntaxError, UnicodeDecodeError), e:
+	except (django.template.base.TemplateSyntaxError, UnicodeDecodeError) as e:
 		msg = "skipping %s %s" % (template_name, repr(e))
 		warnings.warn(msg)
 	return None
@@ -83,7 +83,7 @@ def uniquify_results(input_results):
 		included template.
 	"""
 	ret = {}
-	for template_name, results in input_results.iteritems():
+	for template_name, results in input_results.items():
 		new_results = []
 		for result in results:
 			skip = False
@@ -117,13 +117,13 @@ def walk_templates(template_dirs):
 				for result in method(template, source=_source,
 						origin_fname=_origin_fname):
 					csw.handle_callback(result)
-			except ValueError, e:
+			except ValueError as e:
 				warnings.warn("could not call %s, %s" % (
-					method.func_name, e) )
+					method.__name__, e) )
 		try:
 			template.render(context)
 		except (django.template.base.TemplateSyntaxError,
-		        django.template.base.TemplateDoesNotExist), e:
+		        django.template.base.TemplateDoesNotExist) as e:
 			msg = "skipping %s %s" % (templ, repr(e))
 			warnings.warn(msg)
 		if csw.results:

@@ -1,11 +1,11 @@
 import copy
-import django
-import itertools
 
+import django
 import lxml.etree
 import lxml.html
 from django.template.base import Context
 from django.template import debug
+from django.utils import six
 
 
 def node_has_a_filter(node, filter_func_name):
@@ -16,7 +16,7 @@ def node_has_a_filter(node, filter_func_name):
 		return False
 
 	for _filter in node.filter_expression.filters:
-		if _filter and _filter[0].func_name == filter_func_name:
+		if _filter and _filter[0].__name__ == filter_func_name:
 			return True
 	return False
 
@@ -38,7 +38,7 @@ class InceptionDictionary(dict):
 		return self.__class__()
 
 	def __iter__(self):
-		return itertools.izip(self.iteritems())
+		return six.moves.zip(self.items())
 
 	def __reversed__(self):
 		return self.__iter__()
@@ -262,7 +262,7 @@ class UnEscapedFinding(object):
 		raise NotImplementedError("not implemented!")
 
 	def __unicode__(self):
-		return unicode(self.__str__())
+		return six.text_type(self.__str__())
 
 class UnEscapedVariableFinding(UnEscapedFinding):
 	""" this class represents an un-escaped variable finding. """
@@ -311,8 +311,8 @@ class BaseVariableContextFinding(UnEscapedFinding):
 		super(BaseVariableContextFinding, self).__init__(** kwargs)
 		self._var_node = var_node
 		self._line_number = kwargs.get('line_number')
-		self._filename = unicode(kwargs.get('filename'))
-		self._vulnerability_text = unicode(kwargs.get('vulnerability_text'))
+		self._filename = six.text_type(kwargs.get('filename'))
+		self._vulnerability_text = six.text_type(kwargs.get('vulnerability_text'))
 
 	def get_line_number(self):
 		return self._line_number
