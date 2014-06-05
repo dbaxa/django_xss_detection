@@ -14,6 +14,10 @@ setup(name='django_xss_detection',
 	long_description=read('README.md'),
 	version = __import__('django_xss_detection').__version__,
 	test_suite='django_xss_detection.test',
+	install_requires = [
+		'Django>=1.5',
+		'lxml',
+	],
 
 )
 
