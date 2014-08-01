@@ -31,6 +31,8 @@ This is an attribute injection example <attributeinjectionvul href={{attribute_i
 </script>
 
 
+{% with new_var='some-value'|add:anothervar.username %}
+{% endwith %}
 
 {% if ga_commands %}
 	if statement test

@@ -183,6 +183,8 @@ class FilterExpressionExtraVarResolution(django.template.base.FilterExpression):
 		    content.
 		"""
 		if not isinstance(self.var, django.template.base.Variable):
+			context = self._fill_in_missing_variable_filter_args(
+				context)
 			return super(FilterExpressionExtraVarResolution, self).resolve(context, ignore_failures)
 		else:
 			try:
@@ -191,16 +193,25 @@ class FilterExpressionExtraVarResolution(django.template.base.FilterExpression):
 				pass
 			""" fix up the context """
 			_add_missing_to_context(self.var, context)
-
-			for func, args in self.filters:
-				""" fill in missing variable provided as an arg """
-				for lookup, arg in args:
-					if lookup:
-						try:
-							arg.resolve(context)
-						except django.template.base.VariableDoesNotExist:
-							_add_missing_to_context(arg, context)
+			context = self._fill_in_missing_variable_filter_args(
+				context)
 			return super(FilterExpressionExtraVarResolution, self).resolve(context, ignore_failures)
+
+	def _fill_in_missing_variable_filter_args(self, context):
+		""" returns context filled in with missing variable
+		    that were provided as an arg.
+		"""
+		VariableDoesNotExist = django.template.base.VariableDoesNotExist
+		for func, args in self.filters:
+			for lookup, arg in args:
+				if lookup:
+					try:
+						arg.resolve(context)
+					except VariableDoesNotExist:
+						_add_missing_to_context(arg,
+							context)
+		return context
+
 
 class FilterExpressionIgnoresArgCheck(FilterExpressionExtraVarResolution):
 	def args_check(name, func, provided):
