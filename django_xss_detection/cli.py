@@ -7,12 +7,14 @@ from . import util
 
 
 def setup_option():
-    opt = argparse.ArgumentParser(description=
-        "Find potential xss bugs in a django app!")
-    opt.add_argument("-d", "--template-directory", dest="template_dirs",
+    opt = argparse.ArgumentParser(
+        description="Find potential xss bugs in a django app!")
+    opt.add_argument(
+        "-d", "--template-directory", dest="template_dirs",
         action="append", help="Specify a template directory. "
         "This argument can be specified multiple times.", required=True)
-    opt.add_argument("-j", "--json", dest="json_output",
+    opt.add_argument(
+        "-j", "--json", dest="json_output",
         action="store_true", help="Print results out as JSON.")
     return opt
 
@@ -36,10 +38,10 @@ def _output_results_in_json(f_results):
     out = collections.defaultdict(list)
     for filename, results in f_results.items():
         for result in results:
-            result_dict = {'line_number': result.get_line_number(),
+            result_dict = {
+                'line_number': result.get_line_number(),
                 'finding_reason': result._get_reason(),
-                'vulnerability_text':
-                    result.get_vulnerability_text(),
+                'vulnerability_text': result.get_vulnerability_text(),
             }
             out[result.get_filename()].append(result_dict)
     print(json.dumps(out))

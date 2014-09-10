@@ -20,7 +20,8 @@ def _get_expecting_vuln(doc, xpath=None):
     if xpath is None:
         xpath = ".//div[@type='vuln']"
     for elem in doc.findall(xpath):
-        ret.append({'name': elem.attrib['name'],
+        ret.append({
+            'name': elem.attrib['name'],
             'line_number': elem.sourceline})
     return ret
 
@@ -46,7 +47,8 @@ class TestXSSDetection(unittest.TestCase):
 
     def test_extends_tag(self):
         extends_dir = 'extends'
-        for _file in os.listdir(os.path.join(self.template_dir,
+        for _file in os.listdir(os.path.join(
+                self.template_dir,
                 'tags', extends_dir)):
             self.setUp()
             template_name = os.path.join(extends_dir, _file)
@@ -110,10 +112,12 @@ class TestXSSDetection(unittest.TestCase):
     def test_uniquify_results(self):
         """ test uniquify_results """
         results = util.walk_templates([self.template_dir])
-        for fname, count in [
-                ('uniquify_results/lower.html', 2),
-                ('uniquify_results/top.html', 1),
-                ('uniquify_results/include.html', 1)]:
+        fname_and_counts = [
+            ('uniquify_results/lower.html', 2),
+            ('uniquify_results/top.html', 1),
+            ('uniquify_results/include.html', 1),
+        ]
+        for fname, count in fname_and_counts:
             self.assertEqual(len(results[fname]), count)
 
     def _test_template(self, template_path):
@@ -126,8 +130,11 @@ class TestXSSDetection(unittest.TestCase):
         templ = loader.get_template(template_path)
         context = parse_template.get_default_context()
         templ.render(context)
-        for method in [parse_template.get_non_js_escaped_results_for_template,
-                parse_template.get_non_quoted_attr_vars_for_template]:
+        methods = [
+            parse_template.get_non_js_escaped_results_for_template,
+            parse_template.get_non_quoted_attr_vars_for_template
+        ]
+        for method in methods:
             for result in method(templ):
                 self.csw.handle_callback(result)
         self.assertEqual(len(self.csw.results), len(expecting_vuln))
@@ -149,6 +156,7 @@ class TestUtil(unittest.TestCase):
         method = util.get_non_quoted_content
         for content in ["a'b'cdc", 'a"b"cdc', """a'b'" "cdc"""]:
             self.assertEqual(method(content), "acdc")
+
 
 if __name__ == "__main__":
     unittest.main()
