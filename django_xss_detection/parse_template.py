@@ -215,13 +215,12 @@ class FilterExpressionExtraVarResolution(django.template.base.FilterExpression):
         """ returns context filled in with missing variable
             that were provided as an arg.
         """
-        VariableDoesNotExist = django.template.base.VariableDoesNotExist
         for func, args in self.filters:
             for lookup, arg in args:
                 if lookup:
                     try:
                         arg.resolve(context)
-                    except VariableDoesNotExist:
+                    except django.template.base.VariableDoesNotExist:
                         _add_missing_to_context(arg, context)
         return context
 
