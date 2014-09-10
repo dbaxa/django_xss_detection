@@ -18,7 +18,8 @@ def configure_django(template_dirs):
         'django_xss_detection.loaders.nop.Loader',
     )
     settings.configure(DEBUG=False, TEMPLATE_DEBUG=True,
-                       TEMPLATE_DIRS=template_dirs, TEMPLATE_LOADERS=TEMPLATE_LOADERS)
+                       TEMPLATE_DIRS=template_dirs,
+                       TEMPLATE_LOADERS=TEMPLATE_LOADERS)
     if hasattr(django, 'setup'):
         django.setup()
 
