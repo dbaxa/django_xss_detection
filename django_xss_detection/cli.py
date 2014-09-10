@@ -53,7 +53,7 @@ def _output_results_in_json(f_results):
 def from_cli():
     opt = setup_option()
     args = opt.parse_args()
-    main(args.template_dirs, args.json_output)
+    main(args.template_dirs, args.json_output, logging_capture_warnings=False)
 
 
 if __name__ == "__main__":
