@@ -2,22 +2,24 @@
 from setuptools import setup, find_packages
 import os
 
+
 def read(fname):
-	return open(os.path.join(os.path.dirname(__file__), fname)).read()
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
 
 setup(name='django-xss-detection',
-	author='David Black',
-	author_email='dblack@atlassian.com',
-	url='https://bitbucket.org/atlassian/django_xss_detection',
-	packages=find_packages(),
-	description=read('README.md'),
-	long_description=read('README.md'),
-	version = __import__('django_xss_detection').__version__,
-	test_suite='django_xss_detection.test',
-	install_requires = [
-		'Django>=1.5',
-		'lxml',
-	],
+    author='David Black',
+    author_email='dblack@atlassian.com',
+    url='https://bitbucket.org/atlassian/django_xss_detection',
+    packages=find_packages(),
+    description=read('README.md'),
+    long_description=read('README.md'),
+    version = __import__('django_xss_detection').__version__,
+    test_suite='django_xss_detection.test',
+    install_requires = [
+        'Django>=1.5',
+        'lxml',
+    ],
     platforms=['any'],
     license='BSD',
     classifiers = [
