@@ -18,7 +18,7 @@ def configure_django(template_dirs):
         'django_xss_detection.loaders.nop.Loader',
     )
     settings.configure(DEBUG=False, TEMPLATE_DEBUG=True,
-        TEMPLATE_DIRS=template_dirs, TEMPLATE_LOADERS=TEMPLATE_LOADERS)
+                       TEMPLATE_DIRS=template_dirs, TEMPLATE_LOADERS=TEMPLATE_LOADERS)
     if hasattr(django, 'setup'):
         django.setup()
 
@@ -61,7 +61,7 @@ def is_vuln_already_in_include(result, input_results):
     """
     if not hasattr(result, 'source_node'):
         return False
-    if not(result.source_node and result._var_node.source):
+    if not (result.source_node and result._var_node.source):
         return False
     lookup_name = result._var_node.source[0].loadname
     if lookup_name not in input_results:
@@ -104,10 +104,10 @@ def uniquify_results(input_results):
 
 
 def walk_templates(template_dirs):
-    templates = (os.path.relpath(os.path.join(root, _file), template_dir) \
-        for template_dir in template_dirs \
-            for root, dirs, files in os.walk(template_dir) \
-                for _file in files)
+    templates = (os.path.relpath(os.path.join(root, _file), template_dir)
+                 for template_dir in template_dirs
+                 for root, dirs, files in os.walk(template_dir)
+                 for _file in files)
     results = {}
     for templ in templates:
         csw = parse_template.CompileStringWrapper()
@@ -118,10 +118,10 @@ def walk_templates(template_dirs):
             continue
         _source, _origin_fname = parse_template.get_template_source(templ)
         for method in [parse_template.get_non_js_escaped_results_for_template,
-                parse_template.get_non_quoted_attr_vars_for_template]:
+                       parse_template.get_non_quoted_attr_vars_for_template]:
             try:
                 for result in method(template, source=_source,
-                        origin_fname=_origin_fname):
+                                     origin_fname=_origin_fname):
                     csw.handle_callback(result)
             except ValueError as e:
                 warnings.warn("could not call %s, %s" % (

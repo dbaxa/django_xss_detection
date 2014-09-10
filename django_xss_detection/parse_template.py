@@ -68,8 +68,8 @@ class IfChangedNodeOverload(django.template.defaulttags.IfChangedNode):
     """
 
     def render(self, context):
-        return self.nodelist_true.render(context) + '\n' + \
-            self.nodelist_false.render(context)
+        return (self.nodelist_true.render(context) + '\n' +
+                self.nodelist_false.render(context))
 
 
 class IfNodeOverload(django.template.defaulttags.IfNode):
@@ -90,8 +90,8 @@ class IfEqualNodeOverload(django.template.defaulttags.IfEqualNode):
     """
 
     def render(self, context):
-        return self.nodelist_true.render(context) + '\n' + \
-            self.nodelist_false.render(context)
+        return (self.nodelist_true.render(context) + '\n' +
+                self.nodelist_false.render(context))
 
 
 class VariableNodeAlertingOnUnescapeUse(debug.DebugVariableNode):
@@ -105,16 +105,16 @@ class VariableNodeAlertingOnUnescapeUse(debug.DebugVariableNode):
         if node_has_a_filter(self, 'force_escape'):
             escaped = True
         if not context.autoescape:
-            if node_has_a_filter(self, 'escape_filter') and \
-                not node_has_a_filter(self, 'safe'):
+            if node_has_a_filter(self, 'escape_filter') and (
+                    not node_has_a_filter(self, 'safe')):
                 escaped = True
             msg = "In a context where autoescaping has been disabled."
         elif node_has_a_filter(self, 'safe'):
             msg = "Has the 'safe' template filter and will not be escaped."
         if not escaped and msg and self.__callback_func:
             source_node = getattr(context, 'source_node', None)
-            result = UnEscapedVariableFinding(self,
-                msg=msg, source_node=source_node)
+            result = UnEscapedVariableFinding(
+                self, msg=msg, source_node=source_node)
             self.__callback_func(result)
         try:
             return super(VariableNodeAlertingOnUnescapeUse, self).render(context)
@@ -137,10 +137,10 @@ class DebugNodeListOverLoad(debug.DebugNodeList):
         _include_node_name = 'IncludeNode'
         _prev_include_node_name = 'BaseIncludeNode'
         if hasattr(django.template.loader_tags,
-                _prev_include_node_name):
+                   _prev_include_node_name):
             _include_node_name = _prev_include_node_name
         if isinstance(node, getattr(django.template.loader_tags,
-                _include_node_name)):
+                                    _include_node_name)):
             new_context = copy.copy(context)
             if not hasattr(new_context, source_node_name):
                 setattr(new_context, source_node_name, node)
@@ -208,8 +208,7 @@ class FilterExpressionExtraVarResolution(django.template.base.FilterExpression):
                 pass
             """ fix up the context """
             _add_missing_to_context(self.var, context)
-            context = self._fill_in_missing_variable_filter_args(
-                context)
+            context = self._fill_in_missing_variable_filter_args(context)
             return super(FilterExpressionExtraVarResolution, self).resolve(context, ignore_failures)
 
     def _fill_in_missing_variable_filter_args(self, context):
@@ -223,8 +222,7 @@ class FilterExpressionExtraVarResolution(django.template.base.FilterExpression):
                     try:
                         arg.resolve(context)
                     except VariableDoesNotExist:
-                        _add_missing_to_context(arg,
-                            context)
+                        _add_missing_to_context(arg, context)
         return context
 
 
@@ -232,6 +230,7 @@ class FilterExpressionIgnoresArgCheck(FilterExpressionExtraVarResolution):
     def args_check(name, func, provided):
         """ always return true """
         return True
+
     args_check = staticmethod(args_check)
 
 
@@ -282,7 +281,7 @@ class UnEscapedFinding(object):
 
     def __str__(self):
         return "%s %s %s" % (self.get_line_number(),
-            self.get_vulnerability_text(), self.get_filename())
+                             self.get_vulnerability_text(), self.get_filename())
 
     def _get_reason(self):
         """ returns a reason behind the finding
@@ -332,7 +331,7 @@ class UnEscapedVariableFinding(UnEscapedFinding):
         if self.source_node:
             s_node_info = _get_var_node_source_info(self.source_node)[:-1]
         return "%s %s (source_node %s) \n\t\t%s" % (self._var_node,
-            self.msg, s_node_info, super_str)
+                                                    self.msg, s_node_info, super_str)
 
 
 class BaseVariableContextFinding(UnEscapedFinding):
@@ -359,7 +358,7 @@ class BaseVariableContextFinding(UnEscapedFinding):
     def __str__(self):
         super_str = super(BaseVariableContextFinding, self).__str__()
         return "%s %s \n\t\t%s" % (self._var_node, self._get_reason(),
-            super_str)
+                                   super_str)
 
 
 class UnEscapedVarJavascriptContextFinding(BaseVariableContextFinding):
@@ -377,7 +376,7 @@ class UnQuotedVarElementAttributeContext(BaseVariableContextFinding):
     """
 
     def _get_reason(self):
-        return  "In a html element attribute context without being quoted."
+        return "In a html element attribute context without being quoted."
 
 
 class CompileStringWrapper(object):
@@ -430,8 +429,8 @@ def get_non_js_escaped_results_for_template(template, **kwargs):
     """ returns a generator of UnEscapedJavascriptContextFinding results for
         a given template
     """
-    source, origin_fname = __get_template_source_info_from_kwargs(template,
-        **kwargs)
+    source, origin_fname = __get_template_source_info_from_kwargs(
+        template, **kwargs)
     if not source or source is None:
         raise ValueError("source is empty")
     try:
@@ -447,7 +446,7 @@ def get_non_js_escaped_results_for_template(template, **kwargs):
                 continue
             string_range = node.source[1]
             line_no = (block.sourceline +
-                text[: string_range[0]].count("\n"))
+                       text[: string_range[0]].count("\n"))
             part = text[string_range[0]: string_range[1]]
             result = UnEscapedVarJavascriptContextFinding(
                 var_node=node, line_number=line_no,
@@ -460,8 +459,9 @@ def get_non_quoted_attr_vars_for_template(template, **kwargs):
         for a given template.
     """
     from . import util
-    source, origin_fname = __get_template_source_info_from_kwargs(template,
-        **kwargs)
+
+    source, origin_fname = __get_template_source_info_from_kwargs(
+        template, **kwargs)
     if not source or source is None:
         raise ValueError("source is empty")
     orig = source
@@ -490,8 +490,7 @@ def get_non_quoted_attr_vars_for_template(template, **kwargs):
                 continue
             for node in nodelist.get_nodes_by_type(
                     debug.DebugVariableNode):
-                part = non_q_text[node.source[1][0]:
-                    node.source[1][1]]
+                part = non_q_text[node.source[1][0]:node.source[1][1]]
                 res = UnQuotedVarElementAttributeContext(
                     var_node=node, line_number=line_no,
                     filename=origin_fname,
