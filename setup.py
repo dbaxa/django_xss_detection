@@ -23,6 +23,7 @@ setup(
     ],
     platforms=['any'],
     license='BSD',
+    zip_safe=False,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
