@@ -4,6 +4,7 @@ import warnings
 
 from django.conf import settings
 from django.template import loader
+from django.utils.encoding import smart_text
 
 from . import parse_template
 
@@ -107,7 +108,7 @@ def uniquify_results(input_results):
 def walk_templates(template_dirs):
     templates = (os.path.relpath(os.path.join(root, _file), template_dir)
                  for template_dir in template_dirs
-                 for root, dirs, files in os.walk(template_dir)
+                 for root, dirs, files in os.walk(smart_text(template_dir))
                  for _file in files)
     results = {}
     for templ in templates:
