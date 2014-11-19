@@ -7,6 +7,9 @@ env:
   - DJANGO_VERSION_BRANCH=stable/1.6.x
   - DJANGO_VERSION_BRANCH=stable/1.7.x
 install:
+  - pip install -q pep8
   - pip install -q git+https://github.com/django/django.git@$DJANGO_VERSION_BRANCH
 before_script: python -c 'import django;print(django.VERSION)'
-script: python -m django_xss_detection.test
+script:
+  - pep8 django_xss_detection/ setup.py
+  - python -m django_xss_detection.test
