@@ -96,7 +96,8 @@ class IfEqualNodeOverload(django.template.defaulttags.IfEqualNode):
 
 class VariableNodeAlertingOnUnescapeUse(debug.DebugVariableNode):
     def __init__(self, filter_expression, callback_func=None):
-        super(VariableNodeAlertingOnUnescapeUse, self).__init__(filter_expression)
+        super(VariableNodeAlertingOnUnescapeUse, self).__init__(
+            filter_expression)
         self.__callback_func = callback_func
 
     def render(self, context):
@@ -117,7 +118,8 @@ class VariableNodeAlertingOnUnescapeUse(debug.DebugVariableNode):
                 self, msg=msg, source_node=source_node)
             self.__callback_func(result)
         try:
-            return super(VariableNodeAlertingOnUnescapeUse, self).render(context)
+            return super(VariableNodeAlertingOnUnescapeUse, self).render(
+                context)
         except TypeError:
             return 'An error occured in rendering : %s %s' % (
                 repr(self),
@@ -158,12 +160,14 @@ class ParserThatIdentifiesUnescapedVariable(debug.DebugParser):
 
     def create_variable_node(self, filter_expression):
         var_callback_func = getattr(self, 'var_callback_func', None)
-        return VariableNodeAlertingOnUnescapeUse(filter_expression, var_callback_func)
+        return VariableNodeAlertingOnUnescapeUse(
+            filter_expression, var_callback_func)
 
     def find_filter(self, filter_name):
         if filter_name not in self.filters:
             return lambda s, *args: filter_name
-        return super(ParserThatIdentifiesUnescapedVariable, self).find_filter(filter_name)
+        return super(ParserThatIdentifiesUnescapedVariable, self).find_filter(
+            filter_name)
 
     def compile_filter(self, token):
         try:
@@ -191,7 +195,8 @@ def _add_missing_to_context(var, context):
     return context
 
 
-class FilterExpressionExtraVarResolution(django.template.base.FilterExpression):
+class FilterExpressionExtraVarResolution(
+        django.template.base.FilterExpression):
     def resolve(self, context, ignore_failures=False):
         """ because django's FilterExpression swallows VariableDoesNotExist
             exceptions and we want to ensure that missing variables have some
@@ -200,7 +205,8 @@ class FilterExpressionExtraVarResolution(django.template.base.FilterExpression):
         if not isinstance(self.var, django.template.base.Variable):
             context = self._fill_in_missing_variable_filter_args(
                 context)
-            return super(FilterExpressionExtraVarResolution, self).resolve(context, ignore_failures)
+            return super(FilterExpressionExtraVarResolution, self).resolve(
+                context, ignore_failures)
         else:
             try:
                 obj = self.var.resolve(context)
@@ -209,7 +215,8 @@ class FilterExpressionExtraVarResolution(django.template.base.FilterExpression):
             """ fix up the context """
             _add_missing_to_context(self.var, context)
             context = self._fill_in_missing_variable_filter_args(context)
-            return super(FilterExpressionExtraVarResolution, self).resolve(context, ignore_failures)
+            return super(FilterExpressionExtraVarResolution, self).resolve(
+                context, ignore_failures)
 
     def _fill_in_missing_variable_filter_args(self, context):
         """ returns context filled in with missing variable
@@ -280,7 +287,8 @@ class UnEscapedFinding(object):
 
     def __str__(self):
         return "%s %s %s" % (self.get_line_number(),
-                             self.get_vulnerability_text(), self.get_filename())
+                             self.get_vulnerability_text(),
+                             self.get_filename())
 
     def _get_reason(self):
         """ returns a reason behind the finding
@@ -330,7 +338,8 @@ class UnEscapedVariableFinding(UnEscapedFinding):
         if self.source_node:
             s_node_info = _get_var_node_source_info(self.source_node)[:-1]
         return "%s %s (source_node %s) \n\t\t%s" % (self._var_node,
-                                                    self.msg, s_node_info, super_str)
+                                                    self.msg, s_node_info,
+                                                    super_str)
 
 
 class BaseVariableContextFinding(UnEscapedFinding):
@@ -343,7 +352,8 @@ class BaseVariableContextFinding(UnEscapedFinding):
         self._var_node = var_node
         self._line_number = kwargs.get('line_number')
         self._filename = six.text_type(kwargs.get('filename'))
-        self._vulnerability_text = six.text_type(kwargs.get('vulnerability_text'))
+        self._vulnerability_text = six.text_type(
+            kwargs.get('vulnerability_text'))
 
     def get_line_number(self):
         return self._line_number
@@ -379,7 +389,9 @@ class UnQuotedVarElementAttributeContext(BaseVariableContextFinding):
 
 
 class CompileStringWrapper(object):
-    """ a class that wraps calling compile_string so as to provide a 'callback' func """
+    """ a class that wraps calling compile_string so as to provide a
+        'callback' func
+    """
 
     def __init__(self, callback_func=None, store_results=True):
         self.store_results = store_results

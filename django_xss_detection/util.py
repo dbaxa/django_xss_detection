@@ -27,10 +27,13 @@ def configure_django(template_dirs):
 
 def patch(csw):
     django.template.base.compile_string = csw.compile_string
-    django.template.defaulttags.IfChangedNode = parse_template.IfChangedNodeOverload
+    django.template.defaulttags.IfChangedNode = parse_template.\
+        IfChangedNodeOverload
     django.template.defaulttags.IfNode = parse_template.IfNodeOverload
-    django.template.defaulttags.IfEqualNode = parse_template.IfEqualNodeOverload
-    django.template.base.add_to_builtins('django_xss_detection.templatetags.waffle')
+    django.template.defaulttags.IfEqualNode = parse_template.\
+        IfEqualNodeOverload
+    django.template.base.add_to_builtins(
+        'django_xss_detection.templatetags.waffle')
 
 
 def get_template_wrapped(template_name):
