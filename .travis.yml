@@ -12,4 +12,4 @@ install:
 before_script: python -c 'import django;print(django.VERSION)'
 script:
   - pep8 django_xss_detection/ setup.py
-  - python -m django_xss_detection.test
+  - python setup.py test
