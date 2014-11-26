@@ -2,6 +2,7 @@
 import os
 import unittest
 
+import django
 import lxml.html
 from django.template import loader
 
@@ -75,8 +76,11 @@ class TestXSSDetection(unittest.TestCase):
 
     def test_include_tag_with_context(self):
         """ where an include node includes a template with a 'context'
-            parameter name a TypeError is raised.
+            parameter name a TypeError is raised in django >= 1.7.
         """
+        version = django.VERSION
+        if version[0] < 1 or (version[0] == 1 and version[1] < 7):
+            return
         with self.assertRaises(TypeError):
             self._test_template_tag("include/includer.1.with_context.html")
 
