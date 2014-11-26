@@ -1,0 +1,3 @@
+{% autoescape off %}
+	<div type="vuln" name="include_variable"> {% include "tags/include/includee.1.html" with x="a" context="Hmmm" %} </div>
+{% endautoescape %}

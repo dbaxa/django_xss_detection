@@ -134,7 +134,8 @@ def walk_templates(template_dirs):
         try:
             template.render(context)
         except (django.template.base.TemplateSyntaxError,
-                django.template.base.TemplateDoesNotExist) as e:
+                django.template.base.TemplateDoesNotExist,
+                TypeError) as e:
             msg = "skipping %s %s" % (templ, repr(e))
             warnings.warn(msg)
         if csw.results:

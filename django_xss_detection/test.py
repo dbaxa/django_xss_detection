@@ -73,6 +73,13 @@ class TestXSSDetection(unittest.TestCase):
     def test_include_tag(self):
         return self._test_template_tag("include/includer.1.html")
 
+    def test_include_tag_with_context(self):
+        """ where an include node includes a template with a 'context'
+            parameter name a TypeError is raised.
+        """
+        with self.assertRaises(TypeError):
+            self._test_template_tag("include/includer.1.with_context.html")
+
     def test_include_missing_include(self):
         return self._test_template_tag("include/missing.html")
 
