@@ -18,7 +18,7 @@ setup(
     version=__import__('django_xss_detection').__version__,
     test_suite='django_xss_detection.test',
     install_requires=[
-        'Django>=1.5',
+        'Django>=1.5,<1.8',
         'lxml',
     ],
     platforms=['any'],
