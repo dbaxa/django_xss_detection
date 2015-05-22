@@ -4,6 +4,8 @@ that contain variables that will not be escaped. This package currently has
 no knowledge of custom filters, custom tags, and python code (e.g. uses of
 mark safe). The code has only been tested against django versions >= 1.5 and <= 1.7.
 
+[![Build Status](https://travis-ci.org/dbaxa/django_xss_detection.svg?branch=restrict_django_version_range)](https://travis-ci.org/dbaxa/django_xss_detection)
+
 ## Requirements
 	* django >= 1.5 and < 1.8
 	* lxml
