@@ -13,7 +13,9 @@ setup(
     author_email='dblack@atlassian.com',
     url='https://bitbucket.org/atlassian/django_xss_detection',
     packages=find_packages(),
-    description=read('README.md'),
+    description='This package contains a django template parser that can be '
+                'used to find templates that contain variables that will not '
+                'be escaped.',
     long_description=read('README.md'),
     version=__import__('django_xss_detection').__version__,
     test_suite='django_xss_detection.test',
